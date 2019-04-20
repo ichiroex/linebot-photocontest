@@ -1,4 +1,4 @@
-# LINE Bot for Sou Mari Photo Contest
+# LINE Bot for Photo Contest
 
 ## Requirements
 - python 3.6.6
