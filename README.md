@@ -1,5 +1,6 @@
 # LINE Bot for Photo Contest
 
+
 ## Requirements
 - python 3.6.6
 
@@ -7,7 +8,11 @@
 ```
 $ export LINE_CHANNEL_SECRET=YOUR_LINE_CHANNEL_SECRET
 $ export LINE_CHANNEL_ACCESS_TOKEN=YOUR_LINE_CHANNEL_ACCESS_TOKEN
-
+$ export GOOGLE_PHOTO_CLIENT_ID=YOUR_GOOGLE_PHOTO_CLIENT_ID
+$ export GOOGLE_PHOTO_CLIENT_SECRET=YOUR_GOOGLE_PHOTO_CLIENT_SECRET
+$ export GOOGLE_PHOTO_ALBUM_ID=YOUR_GOOGLE_PHOTO_ALBUM_ID
+$ export GOOGLE_PHOTO_REFRESH_TOKEN=YOUR_GOOGLE_PHOTO_REFRESH_TOKEN
+$ export DATABASE_URI=YOUR_DATABASE_URI
 $ pip install -r requirements.txt
 ```
 
@@ -25,7 +30,7 @@ $ git push origin master
 $ git push heroku master
 ```
 
-## Google Photos APIの使い方
+## How to use Google Photos API
 ### AUTH CODEを取得する（ブラウザで開く）
 ```
 $ CLIENT_ID=<認証情報の作成で作成した文字列>
@@ -35,11 +40,6 @@ $ SCOPE=https://www.googleapis.com/auth/photoslibrary
 
 # 下記URLへアクセス
 $ echo "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI&scope=$SCOPE&access_type=offline"
-```
-
-### 環境変数を設定
-```
-$ source ./set_envs_local.sh
 ```
 
 ### アクセストークンを取得
@@ -70,11 +70,6 @@ $ curl --data "grant_type=refresh_token" --data "client_id=$CLIENT_ID" --data "c
 curl -s -H "Authorization: Bearer $ACCESS_TOKEN" 'https://photoslibrary.googleapis.com/v1/albums'
 ```
 
-### get image binary from line messaging api (LINE Messaging API)
-```
-curl -X GET -v -H 'Content-Type: application/json; charset=UTF-8' -H 'Authorization: Bearer YOUR_LINE_CHANNEL_ACCESS_TOKEN' https://api.line.me/v2/bot/message/LINE_MESSAGE_ID/content
-```
-
 ### upload a photo
 ```
 curl -v --data '{"newMediaItems":[{"simpleMediaItem":{"uploadToken":"YOUR_UOLOAD_TOKEN"}}]}' -H 'Content-type: application/json' -H 'Authorization: Bearer YOUT_ACCESS_TOKEN' "https://photoslibrary.googleapis.com/v1/mediaItems:batchCreate"
@@ -83,4 +78,10 @@ curl -v --data '{"newMediaItems":[{"simpleMediaItem":{"uploadToken":"YOUR_UOLOAD
 ### create photo album (optional)
 ```
 $ curl -X POST -v --data '{"album": {"title": "TITLE_OF_ALBUM"}}' -H 'Content-type: application/json' -H 'Authorization: Bearer YOUR_ACCESS_TOKEN' https://photoslibrary.googleapis.com/v1/albums
+```
+
+## How to use LINE Messaging API
+### get image binary from line messaging api (LINE Messaging API)
+```
+curl -X GET -v -H 'Content-Type: application/json; charset=UTF-8' -H 'Authorization: Bearer YOUR_LINE_CHANNEL_ACCESS_TOKEN' https://api.line.me/v2/bot/message/LINE_MESSAGE_ID/content
 ```
